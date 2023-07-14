@@ -1,0 +1,14 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<a href="{% url 'parishdirectory' %}">Parish Directory</a>
+<hr>
+{% if request.user.is_authenticated %}
+<a href="{% url 'addbcc_unit'  %}">add bcc unit </a>
+<hr>
+<a href="{% url 'addfamily'  %}">add family</a>
+<hr>
+<a href="{% url 'addperson'  %}">add person</a>
+<hr>
+{% endif %}
+{% endblock content %}

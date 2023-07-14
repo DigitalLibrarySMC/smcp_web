@@ -1,0 +1,11 @@
+<html>
+<body>
+  <a href="{% url 'home' %}">Welcome to SMCP webapp</a>
+  <hr>
+  {% include 'navbar.html' %}
+  {% block content %}
+
+  {% endblock %}
+</body>
+
+</html>

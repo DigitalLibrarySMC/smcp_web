@@ -1,0 +1,107 @@
+﻿**Software Requirements Specification (SRS) Document: Digital Library Website**
+ 
+**1. Introduction**
+The purpose of this Software Requirements Specification (SRS) document is to outline the requirements for a website for St.Mary’s Church Pongumoodu, which will serve as a media library and provide various features and functionalities to engage church members and visitors in biblical activities. The website will be accessible through the domain smcp.church.
+ 
+**2. Functional Requirements**
+ 
+2.1 Media Library
+   - The website shall feature a media library to store and organize old media files related to the church.
+   - The media library shall include various categories, such as old programmes, events, functions.
+   - Users should be able to browse and search for media files based on different criteria (e.g. date, name, topic).
+ 
+2.2 Kids Section
+   - The website shall have a dedicated section for kids, featuring an everyday game to engage them in biblical activities.
+   - The game shall have different levels and challenges, promoting learning and interaction with biblical content.
+   - A monthly leaderboard shall be maintained to track and display the scores of the top-performing kids.
+ 
+2.3 Prayers Section
+   - The website shall provide a prayers section that includes a collection of prayers in both text and audio formats.
+   - Users shall be able to access and listen to the prayers in audio format directly on the website.
+   - Prayers shall be categorized based on different themes or occasions (e.g., healing prayers, gratitude prayers).
+ 
+2.4 Bible
+   - The website shall provide a fully-fledged Bible that includes translations(Eng & Mal)
+   - Users shall be able to search and read specific Bible verses or passages.
+   - Bookmarking and highlighting functionalities should be available for users to save and mark their favorite verses.
+ 
+2.5 Members List
+   - The website shall maintain a members list, which stores personal details of all the church members.
+   - Only registered members shall have access to view and update their personal information.
+   - The members list should be searchable and sortable based on different parameters (e.g., name, age, contact information).
+ 
+2.6 About Section
+   - The website shall feature an about section that includes historical information about the church.
+   - The about section shall list the names of all the previous pastors and their respective tenures.
+   - Users should be able to browse and navigate through the historical information in a user-friendly manner.
+ 
+2.7 Materials Section
+   - The website shall include a materials section that provides access to previous question papers (QPs) and study materials.
+   - QPs and study materials shall be categorized based on different subjects or courses.
+   - Users shall be able to download or view the materials directly from the website.
+ 
+2.8 Logos Quiz Section
+   - The website shall have a specific section dedicated to the Logos Quiz.
+   - A question bank shall be maintained to provide a wide range of quiz questions to the users.
+ 
+2.9 Achievements Tab
+   - The website shall feature an achievements tab that honors previous winners in various activities conducted by the church.
+   - The achievements tab shall highlight accomplishments in areas such as academic performance, everyday attendance, logos winners, catechism winners, cultural activities, etc.
+ 
+2.10 Tabbed Design
+   - All sections mentioned above shall be implemented using an easy-to-use tabbed design for navigation and user accessibility.  
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+**3. Non-Functional Requirements**
+ 
+3.1 User Interface
+   - The website shall have an intuitive and user-friendly interface, with consistent design and layout throughout.
+   - The user interface should be responsive, adapting to different devices and screen sizes.
+ 
+3.2 Performance
+   - The website shall be designed and optimized to provide fast loading times for media files, prayers, and other content.
+   - Response times for user interactions and searches should be minimal.
+ 
+3.3 Security
+   - The website shall implement appropriate security measures to protect user data and prevent unauthorized access.
+   - User authentication and authorization mechanisms should be implemented for accessing member information.
+ 
+3.4 Scalability
+   - The website should be scalable to accommodate a growing number of media files, users, and content.
+   - The system should handle increased traffic and usage without significant performance degradation.
+ 
+3.5 Domain Name
+   - The website shall be hosted on the domain smcp.church, as specified in the project requirements.
+ 
+**4. Constraints**
+   - The development of the website shall adhere to the allocated budget and time constraints.
+     *Landing page for the website will be created within 15th of August.
+     *CRM for the website will be created by September.
+     *Full completion of the website will be finished by December.[a]
+ - The website should be compatible with modern web browsers and accessible across different platforms.
+ 
+Note: The above SRS document provides an outline of the requirements for the website, but it may not cover all aspects of a comprehensive SRS. Depending on the project's complexity, additional sections, diagrams, and details may be necessary.
+
+
+[a]This is not finalized yet
