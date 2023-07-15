@@ -6,7 +6,7 @@ class bcc_unit(models.Model):
     secretary = models.CharField(max_length=100)
     pastoral_minstry = models.CharField(max_length=100)
     education_minstry = models.CharField(max_length=100)
-    socialaction_minstry = models.CharField(max_length=100)
+    social_action_minstry = models.CharField(max_length=100)
     family_minstry = models.CharField(max_length=100)
     laity_minstry = models.CharField(max_length=100)
     youth_minstry = models.CharField(max_length=100)
@@ -37,4 +37,6 @@ class person(models.Model):
     occupation = models.CharField(max_length=100)
     phone  = models.CharField(max_length=100, blank=True ,null=True)
 
+    def __str__(self):
+        return self.name
     

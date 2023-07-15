@@ -1,18 +1,23 @@
 {% extends 'main.html' %}
 
 {% block content %}
-  <h2>Unit: {{ unit.unitnumber }}</h2>
+  <h3>Unit: {{ unit.unitnumber }}</h3>
+  <h3>Leaders: {{unit.leaders}}</h3>
+  <h3>Secretary: {{unit.secretary}}</h3>
+  <h3>Pastoral minstry: {{unit.pastoral_minstry}}</h3>
+  <h3>Education ministry: {{unit.education_minstry}}</h3>
+  <h3>Social Action ministry: {{unit.social_action_minstry}}</h3>
+  <h3>Family ministry: {{unit.family_minstry}}</h3>
+  <h3>Laity ministry: {{unit.laity_minstry}}</h3>
+  <h3>Youth ministry: {{unit.youth_minstry}}</h3>
   {% for fam in familys %}
     <div>
-      <h2>Family Number: {{fam.familynumber}}</h2>
-      <h3>Address: {{ fam.address }}</h3>
-      <h3>Family Phone: {{ fam.phone }}</h3>
-      <h3>Members</h3>
+      <a href="{% url 'familypage' fam.familynumber %}">Family Number: {{fam.familynumber}}</a>
       {% for member in fam.person_set.all %}
-        <h3>Name: {{ member.name }}</h3>
-        <h3>Relation: {{ member.relation }}</h3>
-        <h3>Occupation: {{ member.occupation }}</h3>
-        <h3>Phone: {{member.phone}}</h3>
+        {% if member.relation == 'Head' %}
+         <h4>Name: {{ member.name }}</h4>
+         <h4>Phone: {{member.phone}}</h4>
+        {% endif %}
       {% endfor %}
     </div>
   {% endfor %}

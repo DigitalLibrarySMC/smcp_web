@@ -89,5 +89,9 @@ def unitpage(request, pk):
     context = {'unit': unit, 'familys': familys}
     return render(request, 'base/unitpage.html', context)
         
+def familypage(request, pk):
+    fam=family.objects.get(familynumber=pk)
+    context = {'fam':fam}
+    return render(request, 'base/familypage.html', context )
 
         
