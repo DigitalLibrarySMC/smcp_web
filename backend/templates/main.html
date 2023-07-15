@@ -1,7 +1,23 @@
+{% load static %}
 <html>
+<head>
+  <title>SCMP website</title>
+  <link rel="stylesheet" type="text/css" media="screen" href="{% static 'styles/main.css' %}">
+
+</head>
+
 <body>
-  <a href="{% url 'home' %}">Welcome to SMCP webapp</a>
-  <hr>
+  <div class="header-container">
+  <div>
+    <a href="{% url 'home' %}">
+      <img src="/static/images/logo-scmp.png" alt="logo-scmp"  class="logo-scmp">
+    </a>
+  </div>
+  <div>
+    <h3>Welcome to SCMP website</h3>
+  </div>  
+  </div>
+
   {% include 'navbar.html' %}
   {% block content %}
 

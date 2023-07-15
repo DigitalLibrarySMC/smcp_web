@@ -1,0 +1,10 @@
+.header-container{
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
+.logo-scmp{
+  width: 100px;
+  height: auto;
+}
+
+
