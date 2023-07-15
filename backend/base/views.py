@@ -43,7 +43,7 @@ def home(request):
     return render(request, 'base/home.html')
 
 def parishdirectory(request):
-    units = bcc_unit.objects.all()
+    units = bcc_unit.objects.all().order_by('unitnumber')
     context = {'units':units}
     return render(request,'base/parishdirectory.html', context)
 
@@ -85,7 +85,7 @@ def addperson(request):
 
 def unitpage(request, pk):
     unit = get_object_or_404(bcc_unit, unitnumber=pk)
-    familys = family.objects.filter(unitnumber=unit)
+    familys = family.objects.filter(unitnumber=unit).order_by('familynumber')
     context = {'unit': unit, 'familys': familys}
     return render(request, 'base/unitpage.html', context)
         

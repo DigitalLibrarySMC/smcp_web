@@ -1,7 +1,7 @@
 from django.db import models 
 
 class bcc_unit(models.Model):
-    unitnumber = models.CharField(max_length=2)
+    unitnumber = models.IntegerField()
     leaders = models.CharField(max_length=100)
     secretary = models.CharField(max_length=100)
     pastoral_minstry = models.CharField(max_length=100)
@@ -19,7 +19,7 @@ class bcc_unit(models.Model):
 class family(models.Model):
     #number = models.ForeignKey(bcc_unit,on_delete=models.SET_NULL,null=True, related_name='unit_numberfam')
     unitnumber = models.ForeignKey(bcc_unit,on_delete=models.SET_NULL, null = True)
-    familynumber = models.CharField(max_length=100)
+    familynumber = models.IntegerField()
     address = models.CharField(max_length=400)
     phone = models.CharField(max_length=100)
     
