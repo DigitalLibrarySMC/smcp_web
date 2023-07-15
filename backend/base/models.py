@@ -35,5 +35,6 @@ class person(models.Model):
     name = models.CharField(max_length=100)
     relation = models.CharField(max_length=100)
     occupation = models.CharField(max_length=100)
+    phone  = models.CharField(max_length=100, blank=True ,null=True)
 
     
