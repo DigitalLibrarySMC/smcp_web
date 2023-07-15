@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.db.models import Q
 
 
 
@@ -94,4 +95,30 @@ def familypage(request, pk):
     context = {'fam':fam}
     return render(request, 'base/familypage.html', context )
 
+def searchperson(request):
+    cat = request.POST.get('cat')
+    q= request.POST.get('q') if request.POST.get('q') != None else ''
+    if cat == 'name':
+        persons = person.objects.filter(name__icontains=q)
+    elif cat == 'occupation':
+        persons = person.objects.filter(occupation__icontains=q)
+    elif cat == 'age':
+        persons = person.objects.filter(age__icontains=q)
+    elif cat == 'familynumber':
+        persons = person.objects.filter(familynumber__familynumber__icontains=q)
+
+    elif cat=='age less than':
+        persons= person.objects.filter(age__lt=q)
+    elif cat =='age greater than':
+        persons= person.objects.filter(age__gt=q)
+    
+    else:
+        persons =person.objects.filter(
+            Q(name__icontains=q) |
+            Q(occupation__icontains=q) |
+            Q(age__icontains=q) 
+        )
+    context = {'persons':persons,'cat':cat}
+    return render(request,'base/searchperson.html',context)
+      
         

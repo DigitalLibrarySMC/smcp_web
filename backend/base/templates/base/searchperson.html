@@ -1,0 +1,32 @@
+{% extends 'main.html' %}
+{% block content %}
+
+
+<head>
+  <title>Excel Sheet Layout</title>
+  <link rel="stylesheet" type="text/css" media="screen" src="/static/styles/searchperson.css">
+</head>
+<body>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Occupation</th>
+      <th>age</th>
+      <th>Family Number</th>
+      <th>Unit Number</th>
+    </tr>
+    {% for person in persons %}
+    <tr>
+      <td>{{person.name}}</td>
+      <td>{{person.occupation}}</td>
+      <td>{{person.age}}</td>
+      <td>{{person.familynumber}}</td>
+      <td>{{person.familynumber.unitnumber}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</body>
+</html>
+
+
+{% endblock content %}

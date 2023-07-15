@@ -11,5 +11,6 @@ urlpatterns = [
     path ('familypage/<str:pk>',views.familypage,name='familypage'),
     path('login/',views.loginPage, name='login'),
     path('logout/',views.logoutUser, name='logout'),
+    path('searchperson/',views.searchperson,name='searchperson'),
     
 ]
