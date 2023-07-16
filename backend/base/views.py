@@ -121,4 +121,5 @@ def searchperson(request):
     context = {'persons':persons,'cat':cat}
     return render(request,'base/searchperson.html',context)
       
-        
+def aboutchurch(request):
+    return render(request,'base/aboutchurch.html')

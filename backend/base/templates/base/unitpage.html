@@ -14,10 +14,10 @@
     <div>
       <a href="{% url 'familypage' fam.familynumber %}">Family Number: {{fam.familynumber}}</a>
       {% for member in fam.person_set.all %}
-        {% if member.relation in ('Head','head') %}
+      {% if member.relation == 'Head' %}
          <h4>Name: {{ member.name }}</h4>
          <h4>Phone: {{member.phone}}</h4>
-        {% endif %}
+      {% endif %}
       {% endfor %}
     </div>
   {% endfor %}
