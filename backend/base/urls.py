@@ -12,6 +12,6 @@ urlpatterns = [
     path('login/',views.loginPage, name='login'),
     path('logout/',views.logoutUser, name='logout'),
     path('searchperson/',views.searchperson,name='searchperson'),
-    path('aboutchurch/',views.aboutchurch, name='aboutchurch')
-    
+    path('aboutchurch/',views.aboutchurch, name='aboutchurch'),
+    path('aboutchurch/parishpriests',views.parishpriests, name='parishpriests')
 ]

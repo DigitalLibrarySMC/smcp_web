@@ -3,10 +3,42 @@
 
 <head>
   <link rel="stylesheet" type="text/css" media="screen" href="/static/styles/aboutchurch.css">
+
 </head>
 
 <body>
-  <img src="/static/images/SMCP Kurishadi.jpg" alt="smcpkurishadi" class="smcpkurishadi">
+  {% if page == 'aboutchurch' %}
+  <div class="chruchpicture">
+    <img src="/static/images/SMCP Kurishadi.jpg" alt="smcpkurishadi" class="smcpkurishadi">
+  </div>
+  {% for line in holyservice %}
+  <h3>{{line}}</h3>
+  {% endfor %}
+  <hr>
+  <a href="">History</a>
+  <hr>
+  <a href="">Parish Council</a>
+  <hr>
+  <a href="{% url 'parishpriests' %}">Parish Preists of St. Mary's Church</a>
+  <hr>
+  <a href="">Phone Numbers</a>
+  <hr> 
+  {% endif %} 
+  {% if page == 'parishpriests' %}
+  <table>
+    <tr>
+      <th>Name of Priest</th>
+      <th>Duration</th>
+    </tr>
+    {% for priest in parishpriests %}
+    <tr>
+      <td>{{priest.priestname}}</td>
+      <td>{{priest.duration}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% endif %}
 </body>
+
 
 {% endblock %}

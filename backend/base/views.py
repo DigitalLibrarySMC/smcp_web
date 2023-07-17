@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from  .forms import familyform, personform, bcc_unitform
-from .models import bcc_unit, family, person
+from .models import bcc_unit, family, person, parishpreist
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -121,5 +121,17 @@ def searchperson(request):
     context = {'persons':persons,'cat':cat}
     return render(request,'base/searchperson.html',context)
       
+
 def aboutchurch(request):
-    return render(request,'base/aboutchurch.html')
+    page='aboutchurch'
+    with open('G:\\Documents\\GitHub\\smcp_web\\backend\\static\\text\\holyservice', 'r') as file:
+        holyservice = file.readlines()
+
+    context = {'holyservice': holyservice,'page':page}
+    return render(request, 'base/aboutchurch.html', context)
+
+def parishpriests(request):
+    page = 'parishpriests'
+    parishpriests = parishpreist.objects.all()
+    context = {'parishpriests':parishpriests,'page':page}
+    return render(request,'base/aboutchurch.html',context)

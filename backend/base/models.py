@@ -1,6 +1,7 @@
 from django.db import models 
 
 class bcc_unit(models.Model):
+    unitname = models.CharField(max_length=100)
     unitnumber = models.IntegerField()
     leaders = models.CharField(max_length=100)
     secretary = models.CharField(max_length=100)
@@ -40,4 +41,10 @@ class person(models.Model):
     
     def __str__(self):
         return self.name
-    
+
+class parishpreist(models.Model):
+    priestname = models.CharField(max_length=100)
+    duration = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.priestname
