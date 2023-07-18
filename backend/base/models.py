@@ -48,3 +48,19 @@ class parishpreist(models.Model):
 
     def __str__(self):
         return self.priestname
+    
+class phonenumbers(models.Model):
+    name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+class parishcouncil(models.Model):
+    name = models.CharField(max_length=100)
+    desigination = models.CharField(max_length=100)
+    phone = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.desigination
+

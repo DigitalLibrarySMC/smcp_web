@@ -13,5 +13,7 @@ urlpatterns = [
     path('logout/',views.logoutUser, name='logout'),
     path('searchperson/',views.searchperson,name='searchperson'),
     path('aboutchurch/',views.aboutchurch, name='aboutchurch'),
-    path('aboutchurch/parishpriests',views.parishpriests, name='parishpriests')
+    path('aboutchurch/parishpriests',views.parishpriests, name='parishpriests'),
+    path('aboutchurch/parishcouncil',views.council, name='parishcouncil'),
+    path('aboutchurch/numbers',views.numbers, name='numbers'),
 ]

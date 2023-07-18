@@ -1,5 +1,7 @@
 {% extends 'main.html' %}
+
 {% block content %}
+{% load custom_filters %} 
 
 <head>
   <link rel="stylesheet" type="text/css" media="screen" href="/static/styles/aboutchurch.css">
@@ -17,23 +19,29 @@
   <hr>
   <a href="">History</a>
   <hr>
-  <a href="">Parish Council</a>
+  <a href="{% url 'parishcouncil' %}">Parish Council</a>
   <hr>
   <a href="{% url 'parishpriests' %}">Parish Preists of St. Mary's Church</a>
   <hr>
-  <a href="">Phone Numbers</a>
+  <a href="{% url 'numbers' %}">Phone Numbers</a>
   <hr> 
   {% endif %} 
-  {% if page == 'parishpriests' %}
+  {% if page == 'subabout' %}
   <table>
     <tr>
-      <th>Name of Priest</th>
-      <th>Duration</th>
+      <th>{{column1}}</th>
+      <th>{{column2}}</th>
+      {% if column3 != None %}
+      <th>{{column3}}</th>
+      {% endif %}
     </tr>
-    {% for priest in parishpriests %}
+    {% for member in churchdata %}
     <tr>
-      <td>{{priest.priestname}}</td>
-      <td>{{priest.duration}}</td>
+      <td>{{ member|getattribute:column1 }}</td>
+      <td>{{ member|getattribute:column2 }}</td>
+      {% if column3 != None %}
+      <td>{{ member|getattribute:column3 }}</td>
+      {% endif %}
     </tr>
     {% endfor %}
   </table>

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from  .forms import familyform, personform, bcc_unitform
-from .models import bcc_unit, family, person, parishpreist
+from .models import bcc_unit, family, person, parishpreist, parishcouncil, phonenumbers
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -131,7 +131,29 @@ def aboutchurch(request):
     return render(request, 'base/aboutchurch.html', context)
 
 def parishpriests(request):
-    page = 'parishpriests'
-    parishpriests = parishpreist.objects.all()
-    context = {'parishpriests':parishpriests,'page':page}
+    page = 'subabout'
+    column1 = 'priestname'
+    column2 = 'duration'
+    churchdata = parishpreist.objects.all()
+    context = {'churchdata':churchdata,'page':page,
+               'column1':column1,'column2':column2}
+    return render(request,'base/aboutchurch.html',context)
+def council(request):
+    page = 'subabout'
+    churchdata = parishcouncil.objects.all()
+    column1 = 'name'
+    column2 = 'desigination'
+    column3 = 'phone'
+    context = {'churchdata': churchdata, 'page': page,
+               'column1':column1,'column2':column2,'column3':column3}
+    return render(request, 'base/aboutchurch.html', context)
+
+
+def numbers(request):
+    page = 'subabout'
+    column1 = 'name'
+    column2 = 'phone'
+    churchdata = phonenumbers.objects.all()
+    context = {'churchdata':churchdata,'page':page,
+               'column1':column1,'column2':column2}
     return render(request,'base/aboutchurch.html',context)

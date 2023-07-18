@@ -15,7 +15,7 @@
 
 {% for unit in units %}
 <div>
-  <a href="{% url 'unitpage' unit.unitnumber %}">UNIT {{unit.unitnumber}}</a>
+  <a href="{% url 'unitpage' unit.unitnumber %}">UNIT {{unit.unitnumber}} : {{unit.unitname}}</a>
 </div>
 {% endfor %}
 

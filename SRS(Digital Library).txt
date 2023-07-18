@@ -31,7 +31,7 @@ The purpose of this Software Requirements Specification (SRS) document is to out
    - The members list should be searchable and sortable based on different parameters (e.g., name, age, contact information).
  
 2.6 About Section
-   - The website shall feature an about section that includes historical information about the church.
+   - The website shall feature an about section that includes historical information about the church.(timeline?)
    - The about section shall list the names of all the previous pastors and their respective tenures.
    - Users should be able to browse and navigate through the historical information in a user-friendly manner.
  
