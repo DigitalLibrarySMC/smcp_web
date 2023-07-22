@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'base.apps.BaseConfig',
+    'quizes',
+    'questions',
+    'results',
 ]
 
 MIDDLEWARE = [
@@ -121,7 +124,8 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'static'
+    BASE_DIR / 'static',
+    BASE_DIR / 'quizes' / 'static',
 ]
 
 # Default primary key field type
