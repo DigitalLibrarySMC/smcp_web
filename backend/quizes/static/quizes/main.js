@@ -14,7 +14,7 @@ modalBtns.forEach(modalBtn=> modalBtn.addEventListener('click',()=>{
   const time = modalBtn.getAttribute('data-time')
 
   modalBody.innerHTML = `
-  <div class="h5 mb-3">Are you sure you want ti begin "<b>${name}</b>"?</div>
+  <div class="h5 mb-3">Are you sure you want to begin "<b>${name}</b>"?</div>
   <div class="text-muted">
       <ul>
          <li>difficulty: <b>${difficulty}</b></li>

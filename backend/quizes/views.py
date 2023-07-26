@@ -2,7 +2,10 @@ from django.shortcuts import render
 from .models import Quiz
 from django.views.generic import ListView
 from django.http import JsonResponse
-from questions.models import Question, Answer
+from questions.models import Question,Answer
+from results.models import Result
+from django.contrib.auth.models import User
+import json
 # Create your views here.
 
 
@@ -12,7 +15,7 @@ class QuizListView(ListView):
 
 def quiz_view(request, pk):
     quiz = Quiz.objects.get(pk=pk)
-    return render(request,'quizes/quiz.html', {'obj': quiz} )
+    return render(request,'quizes/quiz.html', {'obj': quiz})
 
 def quiz_data_view(request, pk):
     quiz = Quiz.objects.get(pk=pk)
@@ -24,13 +27,16 @@ def quiz_data_view(request, pk):
         questions.append({str(q): answers})
     return JsonResponse({
           'data': questions,
-          'time': quiz.time
+          'time': quiz.time,
+          'quiz':quiz.name,
       })
 
 def save_quiz_view(request, pk):
     #print(request.POST)
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         questions = []
+        quiz = request.POST
+        print(quiz)
         data = request.POST
         data_ = dict(data.lists())
         data_.pop('csrfmiddlewaretoken')
@@ -53,7 +59,7 @@ def save_quiz_view(request, pk):
             a_selected = request.POST.get(q.text)
 
             if a_selected != "":
-                question_answers = Answer.objects.filter(questions=q)
+                question_answers = Answer.objects.filter(question=q)
                 for a in question_answers:
                     if a_selected == a.text:
                         if a.correct:
@@ -62,6 +68,12 @@ def save_quiz_view(request, pk):
                     else:
                         if a.correct:
                             correct_answer = a.text
-
-        
-    return JsonResponse({'text': 'works'})
+                results.append({str(q): {'correct_answer': correct_answer, 'answered': a_selected}})
+            else:
+                results.append({str(q): 'not answered'})     
+        score_ = score * multiplier
+        Result.objects.create(quiz=quiz, user=user, score=score_)
+        if score_ >= quiz.required_score_to_pass:
+            return JsonResponse({'passed':True,'score':score_, 'results':results})
+        else:
+            return JsonResponse({'passed':False,'score':score_, 'results':results})
