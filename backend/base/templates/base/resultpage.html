@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<head>
+  <link rel="stylesheet" type="text/css" media="screen" href="/static/styles/aboutchurch.css">
+
+</head>
+<body>
+  <h1>Result Page</h1>
+
+  <table>
+    <tr>
+      <th>{{ column1 }}</th>
+      <th>{{ column2 }}</th>
+      <th>{{ column3 }}</th>
+    </tr>
+
+    {% for username, attemptedquiz in data.items %}
+      <tr>
+        {% if attemptedquiz|length > 0 %}
+        <td>{{ username }}</td>
+        <td>
+          {% for quiz, score in attemptedquiz.items %}
+            {{ quiz }} 
+            <td>
+              {{ score }}
+            </td>
+            {% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        </td>
+        {% endif %}
+      </tr>
+    {% endfor %}
+  </table>
+</body>
+{% endblock %}
+

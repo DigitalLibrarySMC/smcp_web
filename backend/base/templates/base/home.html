@@ -1,7 +1,6 @@
 {% extends 'main.html' %}
 
 {% block content %}
-<div>
   <a href="{% url 'parishdirectory' %}">Parish Directory</a>
   <hr>
   {% if request.user.is_authenticated %}
@@ -15,5 +14,7 @@
   <a href="{% url 'aboutchurch' %}">About Church</a>
   <hr>
   <a href="{% url 'quizes:main-view' %}">quiz</a>
+  <hr>
+  <a href="{% url 'resultpage' %}">result</a>
 </div>
 {% endblock content %}

@@ -16,5 +16,6 @@ urlpatterns = [
     path('aboutchurch/parishpriests',views.parishpriests, name='parishpriests'),
     path('aboutchurch/parishcouncil',views.council, name='parishcouncil'),
     path('aboutchurch/numbers',views.numbers, name='numbers'),
+    path('results/',views.resultpage, name="resultpage"),
     path('quizes/',include('quizes.urls')),
 ]

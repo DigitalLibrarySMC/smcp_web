@@ -2,10 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from  .forms import familyform, personform, bcc_unitform
 from .models import bcc_unit, family, person, parishpreist, parishcouncil, phonenumbers
 from django.contrib.auth.models import User
+from results.models import Result
+from quizes.models import Quiz
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.db.models import Q
+from django.db.models import Q, Max
 
 
 
@@ -157,3 +159,25 @@ def numbers(request):
     context = {'churchdata':churchdata,'page':page,
                'column1':column1,'column2':column2}
     return render(request,'base/aboutchurch.html',context)
+
+def resultpage(request):
+    column1 = 'User_Name'
+    column2 = 'Quiz'
+    column3 = 'Score'
+    resultlist=[]
+    users= User.objects.all()
+    quizs = Quiz.objects.all()
+    data = {}
+    for user in users:
+     userpk = user.pk
+     results = Result.objects.filter(user=user)
+     attemptedquiz = {}
+     for result in results:
+         if result.quiz.name in attemptedquiz.keys():
+             if attemptedquiz[result.quiz.name] < result.score:
+                 attemptedquiz[result.quiz.name] = result.score
+         else:
+             attemptedquiz[result.quiz.name]=result.score
+     data[user.username] = attemptedquiz
+    context = {'data':data,'column1':column1,'column2':column2,'column3':column3}
+    return render(request,'base/resultpage.html',context)
