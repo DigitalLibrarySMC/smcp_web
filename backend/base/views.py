@@ -163,7 +163,8 @@ def numbers(request):
 def resultpage(request):
     column1 = 'User_Name'
     column2 = 'Quiz'
-    column3 = 'Score'
+    column3 = 'Score(%)'
+    column4 = 'Time_Taken(seconds)'
     resultlist=[]
     users= User.objects.all()
     quizs = Quiz.objects.all()
@@ -174,10 +175,14 @@ def resultpage(request):
      attemptedquiz = {}
      for result in results:
          if result.quiz.name in attemptedquiz.keys():
-             if attemptedquiz[result.quiz.name] < result.score:
-                 attemptedquiz[result.quiz.name] = result.score
+             scoreandtime = attemptedquiz[result.quiz.name]
+             scoreandtime = scoreandtime.split()
+             score = float(scoreandtime[0])
+             print(score)
+             if score < result.score:
+                 attemptedquiz[result.quiz.name] = str(result.score)+" "+str(result.time)
          else:
-             attemptedquiz[result.quiz.name]=result.score
+             attemptedquiz[result.quiz.name]=str(result.score)+" "+str(result.time)
      data[user.username] = attemptedquiz
-    context = {'data':data,'column1':column1,'column2':column2,'column3':column3}
+    context = {'data':data,'column1':column1,'column2':column2,'column3':column3,'column4':column4}
     return render(request,'base/resultpage.html',context)

@@ -4,6 +4,12 @@ const quizBox = document.getElementById('quiz-box')
 const scoreBox = document.getElementById('score-box')
 const resultBox = document.getElementById('result-box')
 const timerBox = document.getElementById('timer-box')
+let timer;
+let displaySeconds;
+let displayMinutes;
+let timez;
+
+
 
 const activateTimer = (time) => {
   if (time.toString().length < 2) {
@@ -14,10 +20,9 @@ const activateTimer = (time) => {
 
   let minutes = time -  1
   let seconds  = 60
-  let displaySeconds
-  let displayMinutes
 
-  const timer = setInterval(()=>{
+
+  timer = setInterval(()=>{
     seconds--
     if (seconds<0){
       seconds = 59
@@ -47,6 +52,7 @@ const activateTimer = (time) => {
 
 }
 
+
 $.ajax({
   type: 'GET',
   url: `${url}data`,
@@ -71,6 +77,7 @@ $.ajax({
         })
       }
     })
+    timez = response.time*60
     activateTimer(response.time)
   },
   error: function(error){
@@ -86,6 +93,10 @@ const sendData = () =>{
   const elements = [...document.getElementsByClassName('answer')]
   const data = {}
   data['csrfmiddlewaretoken']=csrf[0].value
+  const takenMinutes = parseInt(displayMinutes);
+  const takenSeconds = parseInt(displaySeconds);
+  const takenTimeInSeconds = takenMinutes*60 + takenSeconds;
+  data['takentime'] = timez - takenTimeInSeconds;
   elements.forEach(el=>{
     if (el.checked) {
       data[el.name] = el.value
@@ -137,6 +148,7 @@ const sendData = () =>{
        // const body = document.getElementsByTagName('BODY')[0]
         resultBox.append(resDiv)
       })
+      clearInterval(timer);
     },
     error: function(error){
       console.log(error)

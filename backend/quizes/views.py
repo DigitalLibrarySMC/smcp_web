@@ -40,6 +40,9 @@ def save_quiz_view(request, pk):
         data = request.POST
         data_ = dict(data.lists())
         data_.pop('csrfmiddlewaretoken')
+        time = (data_.pop('takentime'))
+        time = round(float(time[0]),2)
+
 
         for k in data_.keys():
             print('key:', k)
@@ -72,7 +75,7 @@ def save_quiz_view(request, pk):
             else:
                 results.append({str(q): 'not answered'})     
         score_ = score * multiplier
-        Result.objects.create(quiz=quiz, user=user, score=score_)
+        Result.objects.create(quiz=quiz, user=user, score=score_,time=time )
         if score_ >= quiz.required_score_to_pass:
             return JsonResponse({'passed':True,'score':score_, 'results':results})
         else:

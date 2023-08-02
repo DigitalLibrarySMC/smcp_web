@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'main.html' %}
 
 {% block content %}
 <head>
@@ -13,25 +13,31 @@
       <th>{{ column1 }}</th>
       <th>{{ column2 }}</th>
       <th>{{ column3 }}</th>
+      <th>{{ column4 }}</th>
     </tr>
 
     {% for username, attemptedquiz in data.items %}
+      {% for quiz, scoreandtime in attemptedquiz.items %}
       <tr>
-        {% if attemptedquiz|length > 0 %}
         <td>{{ username }}</td>
         <td>
-          {% for quiz, score in attemptedquiz.items %}
             {{ quiz }} 
             <td>
+              {% with score=scoreandtime.split.0 %}
               {{ score }}
+              {% endwith %}
             </td>
-            {% if not forloop.last %}, {% endif %}
-          {% endfor %}
+            <td>
+              {% with time=scoreandtime.split.1 %}
+              {{ time }}
+              {% endwith %}
+            </td>
         </td>
-        {% endif %}
+        
       </tr>
+      {% endfor %}
     {% endfor %}
   </table>
 </body>
-{% endblock %}
+{% endblock content %}
 
