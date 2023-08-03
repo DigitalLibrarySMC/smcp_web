@@ -161,16 +161,14 @@ def numbers(request):
     return render(request,'base/aboutchurch.html',context)
 
 def resultpage(request):
+    page = 'resultpage'
     column1 = 'User_Name'
     column2 = 'Quiz'
     column3 = 'Score(%)'
     column4 = 'Time_Taken(seconds)'
-    resultlist=[]
     users= User.objects.all()
-    quizs = Quiz.objects.all()
     data = {}
     for user in users:
-     userpk = user.pk
      results = Result.objects.filter(user=user)
      attemptedquiz = {}
      for result in results:
@@ -184,5 +182,27 @@ def resultpage(request):
          else:
              attemptedquiz[result.quiz.name]=str(result.score)+" "+str(result.time)
      data[user.username] = attemptedquiz
-    context = {'data':data,'column1':column1,'column2':column2,'column3':column3,'column4':column4}
+    context = {'data':data,'page':page,'column1':column1,'column2':column2,'column3':column3,'column4':column4}
+    return render(request,'base/resultpage.html',context)
+
+def scoreboard(request):
+    page = 'scoreboard'
+    column1 = 'User_Name'
+    column2 = 'Score'
+    users = User.objects.all()
+    data = {}
+    for user in users:
+        score = 0
+        results = Result.objects.filter(user=user)
+        for result in results:
+            score += result.score
+        score = round(score,2)
+        data[user.username] = score    
+    scores =sorted(data.values(), reverse=True)
+    descendingdata = {}
+    for score in scores:
+        for key,value in data.items():
+            if value == score:
+                descendingdata[key] = score
+    context = {'data':descendingdata,'page':page,'column1':column1,'column2':column2}
     return render(request,'base/resultpage.html',context)
