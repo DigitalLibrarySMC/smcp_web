@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 urlpatterns = [
@@ -16,4 +16,7 @@ urlpatterns = [
     path('aboutchurch/parishpriests',views.parishpriests, name='parishpriests'),
     path('aboutchurch/parishcouncil',views.council, name='parishcouncil'),
     path('aboutchurch/numbers',views.numbers, name='numbers'),
+    path('results/',views.resultpage, name="resultpage"),
+    path('scoreboard/',views.scoreboard, name="scoreboard"),
+    path('quizes/',include('quizes.urls')),
 ]

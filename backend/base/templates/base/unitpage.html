@@ -10,6 +10,8 @@
   <h3>Family ministry: {{unit.family_minstry}}</h3>
   <h3>Laity ministry: {{unit.laity_minstry}}</h3>
   <h3>Youth ministry: {{unit.youth_minstry}}</h3>
+  {% with nooffam=len(familys) %}
+  <h4>No of Familes: {{nooffam}}</h4>
   {% for fam in familys %}
     <div>
       <a href="{% url 'familypage' fam.familynumber %}">Family Number: {{fam.familynumber}}</a>

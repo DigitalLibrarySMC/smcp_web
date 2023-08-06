@@ -2,10 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from  .forms import familyform, personform, bcc_unitform
 from .models import bcc_unit, family, person, parishpreist, parishcouncil, phonenumbers
 from django.contrib.auth.models import User
+from results.models import Result
+from quizes.models import Quiz
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.db.models import Q
+from django.db.models import Q, Max
 
 
 
@@ -157,3 +159,50 @@ def numbers(request):
     context = {'churchdata':churchdata,'page':page,
                'column1':column1,'column2':column2}
     return render(request,'base/aboutchurch.html',context)
+
+def resultpage(request):
+    page = 'resultpage'
+    column1 = 'User_Name'
+    column2 = 'Quiz'
+    column3 = 'Score(%)'
+    column4 = 'Time_Taken(seconds)'
+    users= User.objects.all()
+    data = {}
+    for user in users:
+     results = Result.objects.filter(user=user)
+     attemptedquiz = {}
+     for result in results:
+         if result.quiz.name in attemptedquiz.keys():
+             scoreandtime = attemptedquiz[result.quiz.name]
+             scoreandtime = scoreandtime.split()
+             score = float(scoreandtime[0])
+             print(score)
+             if score < result.score:
+                 attemptedquiz[result.quiz.name] = str(result.score)+" "+str(result.time)
+         else:
+             attemptedquiz[result.quiz.name]=str(result.score)+" "+str(result.time)
+     data[user.username] = attemptedquiz
+    context = {'data':data,'page':page,'column1':column1,'column2':column2,'column3':column3,'column4':column4}
+    return render(request,'base/resultpage.html',context)
+
+def scoreboard(request):
+    page = 'scoreboard'
+    column1 = 'User_Name'
+    column2 = 'Score'
+    users = User.objects.all()
+    data = {}
+    for user in users:
+        score = 0
+        results = Result.objects.filter(user=user)
+        for result in results:
+            score += result.score
+        score = round(score,2)
+        data[user.username] = score    
+    scores =sorted(data.values(), reverse=True)
+    descendingdata = {}
+    for score in scores:
+        for key,value in data.items():
+            if value == score:
+                descendingdata[key] = score
+    context = {'data':descendingdata,'page':page,'column1':column1,'column2':column2}
+    return render(request,'base/resultpage.html',context)
