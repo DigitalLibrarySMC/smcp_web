@@ -1,4 +1,5 @@
 
+
 {% extends "base.html" %}
 {% load static %}
 {% block scripts %}
@@ -35,19 +36,21 @@ home
 <a href="{% url 'home' %}">Go Home</a>
 <hr>
 {% for obj in object_list %}
-   <button
-    class="btn btn-link modal-button"
-    data-pk="{{obj.pk}}"
-    data-quiz="{{obj.name}}"
-    data-question="{{obj.number_of_questions}}"
-    data-difficulty="{{obj.difficulty}}"
-    data-time="{{obj.time}}"
-    data-pass="{{obj.required_score_to_pass}}"
-    data-toggle="modal" 
-    data-target="#quizStartModal">
-    {{obj.name}}
-  </button><br>
-
+  {% if obj in quiz_with_result %}
+    {{ obj.name }}
+    <br>
+  {% else %}
+    <button class="btn btn-link modal-button"
+            data-pk="{{ obj.pk }}"
+            data-quiz="{{ obj.name }}"
+            data-question="{{ obj.number_of_questions }}"
+            data-difficulty="{{ obj.difficulty }}"
+            data-time="{{ obj.time }}"
+            data-pass="{{ obj.required_score_to_pass }}"
+            data-toggle="modal" 
+            data-target="#quizStartModal">
+      {{ obj.name }}
+    </button><br>
+  {% endif %}
 {% endfor %}
-
 {% endblock content %}

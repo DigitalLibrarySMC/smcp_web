@@ -13,6 +13,15 @@ class QuizListView(ListView):
     model = Quiz
     template_name = 'quizes/main.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        results = Result.objects.filter(user=user)
+        quiz_list = Quiz.objects.all()
+        quiz_with_result = [quiz for quiz in quiz_list if results.filter(quiz=quiz).exists()]
+        context['quiz_with_result'] = quiz_with_result
+        return context
+
 def quiz_view(request, pk):
     quiz = Quiz.objects.get(pk=pk)
     return render(request,'quizes/quiz.html', {'obj': quiz})
