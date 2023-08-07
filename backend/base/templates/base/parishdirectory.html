@@ -1,0 +1,24 @@
+{% extends 'main.html' %}
+{% block content %}
+<button  id="name">Name</button>
+<button  id="occupation">Occupation</button>
+<button  id="age less than">Age less than</button>
+<button  id="age greater than">Age greater than</button>
+<button  id="familynumber">Family Number</button>
+
+<form method="POST" action="{% url 'searchperson' %}">
+  {% csrf_token %}
+  <input type="hidden" name="cat" value="" id="cat-input">  
+  <input type="text" name="q" placeholder="Search person" />
+  <button type="submit">Submit</button>
+</form>
+
+{% for unit in units %}
+<div>
+  <a href="{% url 'unitpage' unit.unitnumber %}">UNIT {{unit.unitnumber}} : {{unit.unitname}}</a>
+</div>
+{% endfor %}
+
+<script src="/static/js/searchperson.js" >  </script>
+
+{% endblock content %}

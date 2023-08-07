@@ -1,0 +1,12 @@
+.header-container{
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
+.logo-smcp{
+  width: 100px;
+  height: auto;
+}
+body{
+  background-color: aquamarine;
+}
+

@@ -1,0 +1,22 @@
+{% extends 'main.html' %}
+
+{% block content %}
+  <a href="{% url 'parishdirectory' %}">Parish Directory</a>
+  <hr>
+  {% if request.user.is_authenticated %}
+  <a href="{% url 'addbcc_unit'  %}">Add Bcc Unit </a>
+  <hr>
+  <a href="{% url 'addfamily'  %}">Add Family</a>
+  <hr>
+  <a href="{% url 'addperson'  %}">Add Person</a>
+  <hr>
+  {% endif %}
+  <a href="{% url 'aboutchurch' %}">About Church</a>
+  <hr>
+  <a href="{% url 'quizes:main-view' %}">Quiz</a>
+  <hr>
+  <a href="{% url 'resultpage' %}">Result</a>
+  <hr>
+  <a href="{% url 'scoreboard' %}">Scoreboard</a>
+</div>
+{% endblock content %}

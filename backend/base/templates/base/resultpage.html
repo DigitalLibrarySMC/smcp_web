@@ -1,0 +1,60 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<head>
+  <link rel="stylesheet" type="text/css" media="screen" href="/static/styles/aboutchurch.css">
+
+</head>
+<body>
+  {% if page == 'resultpage' %}
+  <h1>Result Page</h1>
+
+  <table>
+    <tr>
+      <th>{{ column1 }}</th>
+      <th>{{ column2 }}</th>
+      <th>{{ column3 }}</th>
+      <th>{{ column4 }}</th>
+    </tr>
+
+    {% for username, attemptedquiz in data.items %}
+      {% for quiz, scoreandtime in attemptedquiz.items %}
+      <tr>
+        <td>{{ username }}</td>
+        <td>
+            {{ quiz }} 
+            <td>
+              {% with score=scoreandtime.split.0 %}
+              {{ score }}
+              {% endwith %}
+            </td>
+            <td>
+              {% with time=scoreandtime.split.1 %}
+              {{ time }}
+              {% endwith %}
+            </td>
+        </td>
+        
+      </tr>
+      {% endfor %}
+    {% endfor %}
+  </table>
+  {% endif %}
+
+  {% if page == 'scoreboard' %}
+  <table>
+    <tr>
+      <th>{{column1}}</th>
+      <th>{{column2}}</th>
+    </tr>
+    {% for username,score in data.items %}
+    <tr>
+      <td>{{ username }}</td>
+      <td>{{ score }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% endif %}
+</body>
+{% endblock content %}
+
