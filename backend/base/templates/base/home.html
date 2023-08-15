@@ -3,7 +3,7 @@
 {% block content %}
   <a href="{% url 'parishdirectory' %}">Parish Directory</a>
   <hr>
-  {% if request.user.is_authenticated %}
+  {% if user.is_superuser %}
   <a href="{% url 'addbcc_unit'  %}">Add Bcc Unit </a>
   <hr>
   <a href="{% url 'addfamily'  %}">Add Family</a>
@@ -13,8 +13,10 @@
   {% endif %}
   <a href="{% url 'aboutchurch' %}">About Church</a>
   <hr>
+  {% if request.user.is_authenticated %}
   <a href="{% url 'quizes:main-view' %}">Quiz</a>
   <hr>
+  {% endif %}
   <a href="{% url 'resultpage' %}">Result</a>
   <hr>
   <a href="{% url 'scoreboard' %}">Scoreboard</a>

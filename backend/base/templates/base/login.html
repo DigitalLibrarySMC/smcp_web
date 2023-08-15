@@ -11,11 +11,11 @@
       <input type="text" name="username" placeholder="Enter Username" />
 
       <label>Password:</label>
-      <input type="password" name="password" placeholder="Enter Paasword" />
+      <input type="password" name="password" placeholder="Enter Password" />
 
       <input type="submit" value="Login" />
   </form>
 {% endif %}
 </div>
-
-{% endblock content %}
+<a href="{% url 'signup' %}">Dont have a account.Sign Up</a>
+{% endblock %}

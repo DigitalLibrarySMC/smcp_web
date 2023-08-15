@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from  .forms import familyform, personform, bcc_unitform
+from  .forms import familyform, personform, bcc_unitform,SignUpForm
 from .models import bcc_unit, family, person, parishpreist, parishcouncil, phonenumbers
 from django.contrib.auth.models import User
 from results.models import Result
@@ -10,6 +10,20 @@ from django.contrib import messages
 from django.db.models import Q, Max
 
 
+def signup(request):
+    page = 'signup'
+    if request.method == 'POST':
+        form = SignUpForm(request.POST,request.FILES)
+        #number=person.fliter(phone=form.phone_number) #For checking if the person is our church member
+        #if number is not None:
+        if form.is_valid():
+            user = form.save()
+            # Log the user in
+            login(request, user)
+            return redirect('home')  # Redirect to a success page
+    else:
+        form = SignUpForm()
+    return render(request, 'base/form.html', {'form': form})
 
 def loginPage(request):
     page = 'login'
@@ -126,7 +140,7 @@ def searchperson(request):
 
 def aboutchurch(request):
     page='aboutchurch'
-    with open('G:\\Documents\\GitHub\\smcp_web\\backend\\static\\text\\holyservice', 'r') as file:
+    with open('static\\text\\holyservice', 'r') as file:
         holyservice = file.readlines()
 
     context = {'holyservice': holyservice,'page':page}

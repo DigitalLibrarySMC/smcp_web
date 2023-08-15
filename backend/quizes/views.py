@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from questions.models import Question,Answer
 from results.models import Result
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 import json
 # Create your views here.
 

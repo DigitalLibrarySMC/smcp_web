@@ -1,5 +1,16 @@
 from django.db import models 
+from django.contrib.auth.models import AbstractUser
 
+class CustomUser(AbstractUser):
+    phone_number = models.CharField(max_length=13,unique=True,blank=True, null=True) #while deploying remove null/blank constraint
+    avatar = models.ImageField(null=True,default="avatar.png")
+    #USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    # Add any additional fields or methods as needed
+
+    def __str__(self):
+        return self.username
 class bcc_unit(models.Model):
     unitname = models.CharField(max_length=100)
     unitnumber = models.IntegerField()
@@ -43,23 +54,23 @@ class person(models.Model):
         return self.name
 
 class parishpreist(models.Model):
-    priestname = models.CharField(max_length=100)
-    duration = models.CharField(max_length=100)
+    Priestname = models.CharField(max_length=100)
+    Duration = models.CharField(max_length=100)
 
     def __str__(self):
         return self.priestname
     
 class phonenumbers(models.Model):
-    name = models.CharField(max_length=100)
-    phone = models.CharField(max_length=100)
+    Name = models.CharField(max_length=100)
+    Phone = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
 
 class parishcouncil(models.Model):
-    name = models.CharField(max_length=100)
-    desigination = models.CharField(max_length=100)
-    phone = models.CharField(max_length=100)
+    Name = models.CharField(max_length=100)
+    Desigination = models.CharField(max_length=100)
+    Phone = models.CharField(max_length=100)
 
     def __str__(self):
         return self.desigination
