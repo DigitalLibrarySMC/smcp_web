@@ -1,6 +1,7 @@
 {% extends 'main.html' %}
 
 {% block content %}
+  
   <a href="{% url 'parishdirectory' %}">Parish Directory</a>
   <hr>
   {% if user.is_superuser %}

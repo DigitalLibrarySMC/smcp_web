@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from  .forms import familyform, personform, bcc_unitform,SignUpForm
-from .models import bcc_unit, family, person, parishpreist, parishcouncil, phonenumbers
-from django.contrib.auth.models import User
+from .models import bcc_unit, family, person, parishpreist, parishcouncil, phonenumbers,CustomUser
 from results.models import Result
 from quizes.models import Quiz
 from django.contrib.auth.decorators import login_required
@@ -9,18 +8,22 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.db.models import Q, Max
 
-
 def signup(request):
-    page = 'signup'
     if request.method == 'POST':
-        form = SignUpForm(request.POST,request.FILES)
-        #number=person.fliter(phone=form.phone_number) #For checking if the person is our church member
-        #if number is not None:
+        form = SignUpForm(request.POST, request.FILES)
         if form.is_valid():
-            user = form.save()
+            user = form.save(commit=False)
+
+            # Process the uploaded profile picture
+            profile_picture = form.cleaned_data['avatar']
+            if profile_picture:
+                user.avatar = profile_picture
+
+            user.save()
+
             # Log the user in
             login(request, user)
-            return redirect('home')  # Redirect to a success page
+            return redirect('home')
     else:
         form = SignUpForm()
     return render(request, 'base/form.html', {'form': form})
@@ -30,26 +33,25 @@ def loginPage(request):
     if request.user.is_authenticated:
         return redirect('home')
 
-    if request.method == 'POST' :
+    if request.method == 'POST':
         username = request.POST.get('username').lower()
         password = request.POST.get('password')
 
         try:
-            user = User.objects.get(username=username)
-        except:
-            messages.error(request, "User does not Exists")
+            user = CustomUser.objects.get(username=username)
+            user = authenticate(request, username=username, password=password)
 
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
-            login(request, user)
-            return redirect('home')
-        else:
-            messages.error(request, 'Username OR password does not exit')
-             
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                messages.error(request, 'Username OR password is incorrect')
+        except CustomUser.DoesNotExist:
+            messages.error(request, "User does not exist")
 
     context = {'page': page}
-    return render(request, 'base/login.html',context)
+    return render(request, 'base/login.html', context)
+
 
 def logoutUser(request):
     logout(request)
@@ -180,7 +182,7 @@ def resultpage(request):
     column2 = 'Quiz'
     column3 = 'Score(%)'
     column4 = 'Time_Taken(seconds)'
-    users= User.objects.all()
+    users= CustomUser.objects.all()
     data = {}
     for user in users:
      results = Result.objects.filter(user=user)
@@ -203,7 +205,7 @@ def scoreboard(request):
     page = 'scoreboard'
     column1 = 'User_Name'
     column2 = 'Score'
-    users = User.objects.all()
+    users = CustomUser.objects.all()
     data = {}
     for user in users:
         score = 0
