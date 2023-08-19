@@ -3,7 +3,11 @@
 <head>
   
   <title>SMCP website</title>
-  <link rel="stylesheet" type="text/css" media="screen" href="{% static 'styles/main.css' %}">
+  <link rel="stylesheet" href="{% static 'styles/main.css' %}">
+  <script src="{% static 'js/notification.js' %}"></script>
+
+
+
 
 </head>
 
@@ -19,6 +23,8 @@
   </div>  
   </div>
   <hr>
+  <div id="notification-container"></div>
+
 
   {% include 'navbar.html' %}
   {% block content %}

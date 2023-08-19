@@ -6,6 +6,51 @@
   width: 100px;
   height: auto;
 }
+
+/*#notification-bar {
+  background-color: #f2f2f2;
+  color: #333;
+  padding: 10px;
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  top: 70px;
+  z-index: 1000;
+}
+/* Existing styles */
+/* ... */
+/* Existing styles */
+/* ... */
+
+#notification-container {
+  position: fixed;
+  top: 70px;
+  right: 0;
+  width: 100%; /* Adjust the width to fit notifications */
+  overflow: hidden;
+  white-space: nowrap; /* Keep notifications in a single line */
+}
+
+.notification {
+  background-color: #f2f2f2;
+  color: #333;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 4px;
+  display: inline-block; /* Display notifications in a line */
+  animation: slide-left 5s linear infinite; /* Add sliding animation */
+}
+
+@keyframes slide-left {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+
 body{
   background-color: aquamarine;
 }
@@ -24,7 +69,6 @@ body{
 .username {
   font-size: 18px; /* Adjust the font size as needed */
 }
-
 
 
 
