@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.db.models import Q, Max
+import phonenumbers
 
 def signup(request):
     if request.method == 'POST':
@@ -18,6 +19,7 @@ def signup(request):
             profile_picture = form.cleaned_data['avatar']
             if profile_picture:
                 user.avatar = profile_picture
+            user.phone_number = form.cleaned_data['phone_number']
 
             user.save()
 
