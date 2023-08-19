@@ -61,7 +61,9 @@ def logoutUser(request):
 
 
 def home(request):
-    return render(request, 'base/home.html')
+    with open('static\\text\\notifications', 'r') as file:
+        lines = file.readlines()
+    return render(request, 'base/home.html',{'lines':lines})
 
 def parishdirectory(request):
     units = bcc_unit.objects.all().order_by('unitnumber')

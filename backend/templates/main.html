@@ -1,35 +1,37 @@
 {% load static %}
+{% load custom_filters %}
+
 <html>
 <head>
-  
   <title>SMCP website</title>
   <link rel="stylesheet" href="{% static 'styles/main.css' %}">
-  <script src="{% static 'js/notification.js' %}"></script>
-
-
-
-
 </head>
 
 <body>
   <div class="header-container">
-  <div>
-    <a href="{% url 'home' %}">
-      <img src="/static/images/logo-smcp.png" alt="logo-smcp"  class="logo-smcp">
-    </a>
-  </div>
-  <div>
-    <h3>Welcome to SMCP website</h3>
-  </div>  
+    <div>
+      <a href="{% url 'home' %}">
+        <img src="/static/images/logo-smcp.png" alt="logo-smcp" class="logo-smcp">
+      </a>
+    </div>
+    <div>
+      <h3>Welcome to SMCP website</h3>
+    </div>  
   </div>
   <hr>
-  <div id="notification-container"></div>
-
+  <tr>
+    <td align="center" colspan="3">
+      <marquee behavior="scroll" scrollamount="6" direction="left" style="font-size:14px; font-weight:bold;color:#000000; background-color:#FFFFCC;" onMouseOver="this.stop();" onMouseOut="this.start();">
+        &nbsp;&nbsp;
+      {% for line in lines %}
+        <span style="background-color: {{ forloop.counter0|cycle_colors }}">{{ line }}</span>
+      {% endfor %}
+      </marquee>
+    </td>
+  </tr>
 
   {% include 'navbar.html' %}
   {% block content %}
-
   {% endblock %}
 </body>
-
 </html>
