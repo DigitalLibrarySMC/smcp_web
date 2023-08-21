@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from  .forms import familyform, personform, bcc_unitform,SignUpForm
-from .models import bcc_unit, family, person, parishpreist, parishcouncil, phonenumbers,CustomUser
+from .models import bcc_unit, family, person, parishpreist, parishcouncil, phoneno,CustomUser
 from results.models import Result
 from quizes.models import Quiz
 from django.contrib.auth.decorators import login_required
@@ -67,7 +67,9 @@ def home(request):
 
 def parishdirectory(request):
     units = bcc_unit.objects.all().order_by('unitnumber')
-    context = {'units':units}
+    with open('static\\text\\notifications', 'r') as file:
+        lines = file.readlines()
+    context = {'units':units,'lines':lines}
     return render(request,'base/parishdirectory.html', context)
 
 
@@ -129,9 +131,9 @@ def searchperson(request):
     elif cat == 'familynumber':
         persons = person.objects.filter(familynumber__familynumber__icontains=q)
 
-    elif cat=='age less than':
+    elif cat=='age_less_than':
         persons= person.objects.filter(age__lt=q)
-    elif cat =='age greater than':
+    elif cat =='age_greater_than':
         persons= person.objects.filter(age__gt=q)
     
     else:
@@ -148,17 +150,21 @@ def aboutchurch(request):
     page='aboutchurch'
     with open('static\\text\\holyservice', 'r') as file:
         holyservice = file.readlines()
+    with open('static\\text\\notifications', 'r') as myfile:
+        lines = myfile.readlines()
 
-    context = {'holyservice': holyservice,'page':page}
+    context = {'holyservice': holyservice,'page':page,'lines':lines}
     return render(request, 'base/aboutchurch.html', context)
 
 def parishpriests(request):
     page = 'subabout'
     column1 = 'priestname'
     column2 = 'duration'
+    with open('static\\text\\notifications', 'r') as file:
+        lines = file.readlines()
     churchdata = parishpreist.objects.all()
     context = {'churchdata':churchdata,'page':page,
-               'column1':column1,'column2':column2}
+               'column1':column1,'column2':column2,'lines':lines}
     return render(request,'base/aboutchurch.html',context)
 def council(request):
     page = 'subabout'
@@ -166,8 +172,10 @@ def council(request):
     column1 = 'name'
     column2 = 'desigination'
     column3 = 'phone'
+    with open('static\\text\\notifications', 'r') as file:
+        lines = file.readlines()
     context = {'churchdata': churchdata, 'page': page,
-               'column1':column1,'column2':column2,'column3':column3}
+               'column1':column1,'column2':column2,'column3':column3,'lines':lines}
     return render(request, 'base/aboutchurch.html', context)
 
 
@@ -175,9 +183,12 @@ def numbers(request):
     page = 'subabout'
     column1 = 'name'
     column2 = 'phone'
-    churchdata = phonenumbers.objects.all()
+    column3 = 'designation'
+    churchdata = phoneno.objects.all()
+    with open('static\\text\\notifications', 'r') as file:
+        lines = file.readlines()
     context = {'churchdata':churchdata,'page':page,
-               'column1':column1,'column2':column2}
+               'column1':column1,'column2':column2,'column3':column3,'lines':lines}
     return render(request,'base/aboutchurch.html',context)
 
 def resultpage(request):
@@ -202,7 +213,9 @@ def resultpage(request):
          else:
              attemptedquiz[result.quiz.name]=str(result.score)+" "+str(result.time)
      data[user.username] = attemptedquiz
-    context = {'data':data,'page':page,'column1':column1,'column2':column2,'column3':column3,'column4':column4}
+    with open('static\\text\\notifications', 'r') as file:
+        lines = file.readlines()
+    context = {'data':data,'page':page,'column1':column1,'column2':column2,'column3':column3,'column4':column4,'lines':lines}
     return render(request,'base/resultpage.html',context)
 
 def scoreboard(request):
@@ -224,5 +237,21 @@ def scoreboard(request):
         for key,value in data.items():
             if value == score:
                 descendingdata[key] = score
-    context = {'data':descendingdata,'page':page,'column1':column1,'column2':column2}
+    with open('static\\text\\notifications', 'r') as file:
+        lines = file.readlines()
+    context = {'data':descendingdata,'page':page,'column1':column1,'column2':column2,'lines':lines}
     return render(request,'base/resultpage.html',context)
+
+def notices(request):
+        with open('static\\text\\notices\\latest', 'r') as file:
+            notices = file.readlines()
+        with open('static\\text\\notifications', 'r') as myfile:
+            lines = myfile.readlines()
+        return render(request, 'base/notices.html',{'notices':notices,'lines':lines})
+
+def history(request):
+        with open('static\\text\\history', 'r') as file:
+            notices = file.readlines()
+        with open('static\\text\\notifications', 'r') as myfile:
+            lines = myfile.readlines()
+        return render(request, 'base/notices.html',{'notices':notices,'lines':lines})

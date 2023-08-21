@@ -54,23 +54,25 @@ class person(models.Model):
         return self.name
 
 class parishpreist(models.Model):
-    Priestname = models.CharField(max_length=100)
-    Duration = models.CharField(max_length=100)
+    priestname = models.CharField(max_length=100)
+    duration = models.CharField(max_length=100)
 
     def __str__(self):
         return self.priestname
     
-class phonenumbers(models.Model):
-    Name = models.CharField(max_length=100)
-    Phone = models.CharField(max_length=100)
+class phoneno(models.Model):
+    name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=100)
+    category = models.CharField(max_length=100)
+    designation = models.CharField(max_length=100,null=True)
 
     def __str__(self):
         return self.name
 
 class parishcouncil(models.Model):
-    Name = models.CharField(max_length=100)
-    Desigination = models.CharField(max_length=100)
-    Phone = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
+    desigination = models.CharField(max_length=100)
+    phone = models.CharField(max_length=100)
 
     def __str__(self):
         return self.desigination

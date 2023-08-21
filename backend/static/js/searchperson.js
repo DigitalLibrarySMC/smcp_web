@@ -12,14 +12,14 @@ var cat;
     console.log(cat);
   });
 
-  document.getElementById("age less than").addEventListener("click", function() {
-    cat = "age less than";
+  document.getElementById("age_less_than").addEventListener("click", function() {
+    cat = "age_less_than";
     document.getElementById("cat-input").value = cat;  // Assign the value to the hidden input field
     console.log(cat);
   });
 
-  document.getElementById("age greater than").addEventListener("click", function() {
-    cat = "age greater than";
+  document.getElementById("age_greater_than").addEventListener("click", function() {
+    cat = "age_greater_than";
     document.getElementById("cat-input").value = cat;  // Assign the value to the hidden input field
     console.log(cat);
   });
@@ -30,3 +30,10 @@ var cat;
     console.log(cat);
   });
 
+const buttons = document.getElementsByClassName('filterbutton');
+
+for (let i = 0; i < buttons.length; i++) {
+  buttons[i].addEventListener('click', function() {
+    buttons[i].classList.add('clicked'); // Add the 'clicked' class to the clicked button
+  });
+}

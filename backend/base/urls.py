@@ -14,11 +14,13 @@ urlpatterns = [
     path('logout/',views.logoutUser, name='logout'),
     path('searchperson/',views.searchperson,name='searchperson'),
     path('aboutchurch/',views.aboutchurch, name='aboutchurch'),
+    path('aboutchurch/history',views.history, name='history'),
     path('aboutchurch/parishpriests',views.parishpriests, name='parishpriests'),
     path('aboutchurch/parishcouncil',views.council, name='parishcouncil'),
     path('aboutchurch/numbers',views.numbers, name='numbers'),
     path('results/',views.resultpage, name="resultpage"),
     path('scoreboard/',views.scoreboard, name="scoreboard"),
+    path('notices/',views.notices, name="notices"),
     path('signup/',views.signup, name='signup'),
     path('quizes/',include('quizes.urls')),
 ]
