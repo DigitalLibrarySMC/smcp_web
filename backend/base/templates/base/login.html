@@ -7,8 +7,8 @@
   <form method="POST" action="">
       {% csrf_token %}
 
-      <label>Username:</label>
-      <input type="text" name="username" placeholder="Enter Username" />
+      <label>Email:</label>
+      <input type="text" name="email" placeholder="Enter Email" />
 
       <label>Password:</label>
       <input type="password" name="password" placeholder="Enter Password" />
@@ -25,5 +25,7 @@
 {% endif %}
 
 </div>
+<a href="{% url 'password_reset' %}">Forgot Password?</a>
+<hr>
 <a href="{% url 'signup' %}">Dont have a account.Sign Up</a>
 {% endblock %}

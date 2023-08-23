@@ -2,10 +2,9 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):
-    phone_number = models.CharField(max_length=13,unique=True,blank=True, null=True) #while deploying remove null/blank constraint
+    phone_number = models.CharField(max_length=13,blank=True, null=True) #while deploying remove null/blank constraint
     avatar = models.ImageField(null=True,default="avatar.png")
     #USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
 
     # Add any additional fields or methods as needed
 

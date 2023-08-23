@@ -7,6 +7,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.db.models import Q, Max
+from django.conf import settings
+from django.contrib.auth.views import PasswordResetView
+
+from django.core.mail import send_mail
 import phonenumbers
 
 def signup(request):
@@ -17,15 +21,26 @@ def signup(request):
 
             # Process the uploaded profile picture
             profile_picture = form.cleaned_data['avatar']
+            email = form.cleaned_data['email']
+            user.email = email
             if profile_picture:
                 user.avatar = profile_picture
-            user.phone_number = form.cleaned_data['phone_number']
+            phone= form.cleaned_data['phone_number']
+            users=CustomUser.objects.all()
+            wrongphone=0
+            for ph in users:
+                if ph.phone_number==phone:
+                    wrongphone+=1 
+            if wrongphone<2:
+                user.phone_number=phone              
+                user.save()
+                login(request, user)            # Log the user in
+                return redirect('home')
 
-            user.save()
-
-            # Log the user in
-            login(request, user)
-            return redirect('home')
+            else:
+                messages.error(request, 'There are more than two accounts linked with this phone number')
+                return redirect('signup')
+            
     else:
         form = SignUpForm()
     return render(request, 'base/form.html', {'form': form})
@@ -36,18 +51,18 @@ def loginPage(request):
         return redirect('home')
 
     if request.method == 'POST':
-        username = request.POST.get('username').lower()
+        email = request.POST.get('email').lower()
         password = request.POST.get('password')
 
         try:
-            user = CustomUser.objects.get(username=username)
-            user = authenticate(request, username=username, password=password)
+            user = CustomUser.objects.get(email=email)
+            user = authenticate(request, username=user.username, password=password)
 
             if user is not None:
                 login(request, user)
                 return redirect('home')
             else:
-                messages.error(request, 'Username OR password is incorrect')
+                messages.error(request, 'Email OR password is incorrect')
         except CustomUser.DoesNotExist:
             messages.error(request, "User does not exist")
 
@@ -255,3 +270,19 @@ def history(request):
         with open('static\\text\\notifications', 'r') as myfile:
             lines = myfile.readlines()
         return render(request, 'base/notices.html',{'notices':notices,'lines':lines})
+def sentemail(request):
+    subject='This is for testing purpose'
+    message='Hi,if you got this email it means sent email is working'
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = ['smcponline@gmail.com']
+    send_mail(subject,message,email_from,recipient_list)
+    return render(request,'base/notices.html')
+
+class CustomPasswordResetView(PasswordResetView):
+    email_template_name = 'base/registration/password_reset_email.html'
+    
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        email = form.cleaned_data['email']
+        self.extra_context = {'email': email}
+        return response
