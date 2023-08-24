@@ -14,6 +14,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 import os
 
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'quizes',
     'questions',
     'results',
+    'verify_email.apps.VerifyEmailConfig'
 ]
 
 MIDDLEWARE = [
@@ -155,4 +157,6 @@ EMAIL_USE_SSL = False
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
+LOGIN_URL  = 'login'
+VERIFICATION_SUCCESS_TEMPLATE = None
 

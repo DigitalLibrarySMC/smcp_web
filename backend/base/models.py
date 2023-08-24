@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):
-    phone_number = models.CharField(max_length=13,blank=True, null=True) #while deploying remove null/blank constraint
     avatar = models.ImageField(null=True,default="avatar.png")
     #USERNAME_FIELD = 'email'
 
@@ -46,7 +45,7 @@ class person(models.Model):
     name = models.CharField(max_length=100)
     relation = models.CharField(max_length=100)
     occupation = models.CharField(max_length=100)
-    phone  = models.CharField(max_length=100, blank=True ,null=True)
+    email  = models.CharField(max_length=100, blank=True ,null=True)
     age = models.IntegerField()
     
     def __str__(self):

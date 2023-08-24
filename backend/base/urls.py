@@ -3,6 +3,7 @@ from . import views
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
+
 urlpatterns = [
     path('',views.home,name='home'),
     path('addbcc_unit',views.addbcc_unit,name='addbcc_unit'),
@@ -23,12 +24,12 @@ urlpatterns = [
     path('scoreboard/',views.scoreboard, name="scoreboard"),
     path('notices/',views.notices, name="notices"),
     path('signup/',views.signup, name='signup'),
-    path('sentemail/',views.sentemail, name='sentemail'),
     path('quizes/',include('quizes.urls')),
-    path('reset_password/',views.CustomPasswordResetView.as_view(template_name='base/registration/password_reset.html'),name='password_reset'),
+    path('reset_password/',views.custom_password_reset_view,name='password_reset'),
     path('reset_password_sent/',auth_views.PasswordResetDoneView.as_view(template_name='base/registration/password_reset_sent.html'),name='password_reset_done'), 
     path('reset/<uidb64>/<token>',auth_views.PasswordResetConfirmView.as_view(template_name='base/registration/password_reset_confirm.html'),name='password_reset_confirm'),
     path('reset_password_complete/',auth_views.PasswordResetCompleteView.as_view(template_name='base/registration/password_reset_done.html'),name='password_reset_complete'),
+    
 ]
 
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

@@ -9,40 +9,47 @@ from django.contrib import messages
 from django.db.models import Q, Max
 from django.conf import settings
 from django.contrib.auth.views import PasswordResetView
-
+from django_ratelimit.decorators import ratelimit
 from django.core.mail import send_mail
+from verify_email.email_handler import send_verification_email
 import phonenumbers
 
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST, request.FILES)
         if form.is_valid():
-            user = form.save(commit=False)
-
-            # Process the uploaded profile picture
-            profile_picture = form.cleaned_data['avatar']
             email = form.cleaned_data['email']
-            user.email = email
-            if profile_picture:
-                user.avatar = profile_picture
-            phone= form.cleaned_data['phone_number']
-            users=CustomUser.objects.all()
-            wrongphone=0
-            for ph in users:
-                if ph.phone_number==phone:
-                    wrongphone+=1 
-            if wrongphone<2:
-                user.phone_number=phone              
-                user.save()
-                login(request, user)            # Log the user in
-                return redirect('home')
+            persons = person.objects.all()
+            user_already_registered = False
+            parish_member_not_detected = True
 
+            for per in persons:
+                if per.email == email:
+                    users = CustomUser.objects.all()
+                    for us in users:
+                        if us.email == email:
+                            user_already_registered = True
+                            break  # Exit the loop if user email is found
+                    parish_member_not_detected = False  # Email is found in parish member list
+                    break  # Exit the loop if email is found in persons
+
+            if user_already_registered:
+                messages.error(request, 'This email has already been registered to a user')
+            elif parish_member_not_detected:
+                messages.error(request, 'This email is not detected as an email of a parish member. If you are a parish member, please contact support to register your email as a parish member')
             else:
-                messages.error(request, 'There are more than two accounts linked with this phone number')
-                return redirect('signup')
-            
+                # Create and save the user if all conditions are satisfied
+                user = form.save(commit=False)
+                user.email = email
+                profile_picture = form.cleaned_data['avatar']
+                if profile_picture:
+                    user.avatar = profile_picture
+                inactive_user = send_verification_email(request, form)
+                return render(request,'base/verificationemailsent.html')
+
     else:
         form = SignUpForm()
+
     return render(request, 'base/form.html', {'form': form})
 
 def loginPage(request):
@@ -76,6 +83,7 @@ def logoutUser(request):
 
 
 def home(request):
+    
     with open('static\\text\\notifications', 'r') as file:
         lines = file.readlines()
     return render(request, 'base/home.html',{'lines':lines})
@@ -270,15 +278,10 @@ def history(request):
         with open('static\\text\\notifications', 'r') as myfile:
             lines = myfile.readlines()
         return render(request, 'base/notices.html',{'notices':notices,'lines':lines})
-def sentemail(request):
-    subject='This is for testing purpose'
-    message='Hi,if you got this email it means sent email is working'
-    email_from = settings.EMAIL_HOST_USER
-    recipient_list = ['smcponline@gmail.com']
-    send_mail(subject,message,email_from,recipient_list)
-    return render(request,'base/notices.html')
+
 
 class CustomPasswordResetView(PasswordResetView):
+    template_name='base/registration/password_reset.html'
     email_template_name = 'base/registration/password_reset_email.html'
     
     def form_valid(self, form):
@@ -286,3 +289,8 @@ class CustomPasswordResetView(PasswordResetView):
         email = form.cleaned_data['email']
         self.extra_context = {'email': email}
         return response
+
+@ratelimit(key='ip', rate='1/h', method='POST')  # if users are behind a shared IP (such as in some corporate or public networks)
+def custom_password_reset_view(request, *args, **kwargs):
+    return CustomPasswordResetView.as_view()(request, *args, **kwargs)
+
