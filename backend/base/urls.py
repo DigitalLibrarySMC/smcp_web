@@ -24,6 +24,8 @@ urlpatterns = [
     path('scoreboard/',views.scoreboard, name="scoreboard"),
     path('notices/',views.notices, name="notices"),
     path('signup/',views.signup, name='signup'),
+    path('extend_session_timeout/', views.extend_session_timeout, name='extend_session_timeout'),
+    path('editnotice/',views.editnotice, name='editnotice'),
     path('quizes/',include('quizes.urls')),
     path('reset_password/',views.custom_password_reset_view,name='password_reset'),
     path('reset_password_sent/',auth_views.PasswordResetDoneView.as_view(template_name='base/registration/password_reset_sent.html'),name='password_reset_done'), 

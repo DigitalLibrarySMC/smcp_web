@@ -12,6 +12,8 @@ from django.contrib.auth.views import PasswordResetView
 from django_ratelimit.decorators import ratelimit
 from django.core.mail import send_mail
 from verify_email.email_handler import send_verification_email
+from django.contrib import messages
+from django.http import HttpResponseForbidden
 import phonenumbers
 
 def signup(request):
@@ -79,7 +81,7 @@ def loginPage(request):
 
 def logoutUser(request):
     logout(request)
-    return redirect('home')
+    return redirect('login')
 
 
 def home(request):
@@ -95,8 +97,6 @@ def parishdirectory(request):
     context = {'units':units,'lines':lines}
     return render(request,'base/parishdirectory.html', context)
 
-
-@login_required(login_url='login')
 def addbcc_unit(request):
     form  = bcc_unitform()
     if request.method == 'POST':
@@ -107,8 +107,6 @@ def addbcc_unit(request):
     context = {'form': form}
     return render(request, 'base/form.html', context)
 
-
-@login_required(login_url='login')
 def addfamily(request):
     form  = familyform()
     if request.method == 'POST':
@@ -119,8 +117,6 @@ def addfamily(request):
     context = {'form': form}
     return render(request, 'base/form.html', context)
 
-
-@login_required(login_url='login')
 def addperson(request):
     form  = personform()
     if request.method == 'POST':
@@ -293,4 +289,24 @@ class CustomPasswordResetView(PasswordResetView):
 @ratelimit(key='ip', rate='1/h', method='POST')  # if users are behind a shared IP (such as in some corporate or public networks)
 def custom_password_reset_view(request, *args, **kwargs):
     return CustomPasswordResetView.as_view()(request, *args, **kwargs)
+ 
+def editnotice(request):
+    enternotice = 'ok'
+    return render(request,'base/form.html',{'enternotice':enternotice})
 
+def editnoticechange(request):
+    return render(request,'base/home.html')
+
+
+class SuperuserRequiredMixin:
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            messages.warning(request, 'You must be a superuser to access this page.')
+            return HttpResponseForbidden()
+        return super().dispatch(request, *args, **kwargs)
+
+from django.http import JsonResponse
+
+def extend_session_timeout(request):
+    request.session['session_timeout_extend'] = True
+    return JsonResponse({'message': 'Session timeout extended.'})

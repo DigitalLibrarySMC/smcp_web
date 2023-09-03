@@ -10,7 +10,7 @@ urlpatterns = [
     path('',include('base.urls')),
     path('quizes/', include('quizes.urls', namespace='quizes')),
     path('verification/', include('verify_email.urls')),
-
+    path('api/',include('base.api.urls'),),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

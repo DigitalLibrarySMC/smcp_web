@@ -18,6 +18,7 @@
       <h3 class="main-heading">Welcome to SMCP website</h3>
     </div>  
   </div>
+  <div id="session-warning" style="display: none;"></div>
   <hr>
   <tr>
     <td align="center" colspan="3">
@@ -33,5 +34,35 @@
   {% include 'navbar.html' %}
   {% block content %}
   {% endblock %}
+  {% if user.is_authenticated %}
+<script type="text/javascript">
+  // Function to display the warning message
+  function showSessionWarning() {
+      alert("Your session will expire soon. Click OK to continue your session.");
+  }
+
+  // Set a timeout to display the warning message 
+  var sessionTimeoutWarning = setTimeout(showSessionWarning, 5700); // 5 seconds
+
+  // Reset the timeout if there is user activity (e.g., mouse movement)
+  document.addEventListener("mousemove", function () {
+      clearTimeout(sessionTimeoutWarning);
+      sessionTimeoutWarning = setTimeout(showSessionWarning, 5700); // 5 seconds
+  });
+  if (confirm("Your session will expire soon. Click OK to continue your session.")) {
+        // User clicked "OK," set the flag in the session
+        fetch('/extend_session_timeout/', { method: 'POST' })
+            .then(response => {
+                if (response.ok) {
+                    // Reload the page or perform any other action
+                }
+            });
+    }
+
+  // You can also reset the timeout on other user interactions like clicks or keypresses
+
+</script>
+{% endif %}
+
 </body>
 </html>

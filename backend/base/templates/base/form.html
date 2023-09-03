@@ -9,6 +9,14 @@
      <input type="submit" value="Submit" />
 
 </form>
+{% if enternotice=='ok' %}
+<form method="POST" action="{% url 'editnoticechange' %}">
+    {% csrf_token %}  
+    <input type="text" name="matter" placeholder="Enter the Matter" />
+    <button type="submit">Submit</button>
+</form>
+{% endif %}
+
 {% if messages %}
 <ul class="messages">
     {% for message in messages %}
