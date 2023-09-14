@@ -16,6 +16,14 @@
     {% endfor %}
 </ul>
 {% endif %}
+{% if enternotice %}
+<form method="POST" action="{% url 'editnoticechange' %}">
+    {% csrf_token %}  
+    <input type="text" name="matter" placeholder="Enter the Matter" />
+    <button type="submit">Submit</button>
+</form>
+{% endif %}
+
 
 </div>
 

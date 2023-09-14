@@ -12,40 +12,88 @@ from django.contrib.auth.views import PasswordResetView
 from django_ratelimit.decorators import ratelimit
 from django.core.mail import send_mail
 from verify_email.email_handler import send_verification_email
-import phonenumbers
+import phonenumbers,vonage,string,random
+
+
+def generate_otp(length=6):
+    characters = string.digits
+    return ''.join(random.choice(characters) for _ in range(length))
+
+# In your view:
+# # Replace with the user's phone number
+def send_otp_via_sms(phone_number):
+    otp_code = generate_otp()
+    client = vonage.Client(key=settings.VONAGE_API_KEY, secret=settings.VONAGE_API_SECRET)
+    sms = vonage.Sms(client)
+
+    message = f"Your OTP code is: {otp_code}"
+
+    response = sms.send_message({
+        "from": settings.VONAGE_PHONE_NUMBER,
+        "to": phone_number,
+        "text": message,
+        })
+
+                        # Check the response to see if the message was sent successfully
+    if response["messages"][0]["status"] == "0":
+        return otp_code  # Message sent successfully
+    else:
+        return False  # Message sending failed
+
+def otpverify(request):
+    if request.method == 'POST':
+        generatedotp = request.session['generatedotp']
+        enteredotp = request.POST.get('enteredotp')
+        if generatedotp == enteredotp:
+            # OTP is valid, create the user
+            user = CustomUser.objects.create_user(username=request.session['username'], password=request.session['password1'],phone=request.session['phone'],avatar = request.session['avatar'])
+            login(request, user)  # Log in the user
+            messages.success(request, 'Account created successfully!')
+            return redirect('home')
+        else:
+            messages.error(request, 'Invalid OTP. Please try again.')
+    return render(request, 'base/enterotp.html')
+
+
 
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST, request.FILES)
         if form.is_valid():
-            email = form.cleaned_data['email']
+            phone = form.cleaned_data['phone']
             persons = person.objects.all()
             user_already_registered = False
             parish_member_not_detected = True
 
             for per in persons:
-                if per.email == email:
+                if per.phone == phone:
                     users = CustomUser.objects.all()
                     for us in users:
-                        if us.email == email:
+                        if us.phone == phone:
                             user_already_registered = True
-                            break  # Exit the loop if user email is found
-                    parish_member_not_detected = False  # Email is found in parish member list
-                    break  # Exit the loop if email is found in persons
+                            break  # Exit the loop if user phone is found
+                    parish_member_not_detected = False  # Phone is found in parish member list
+                    break  # Exit the loop if phone is found in persons
 
             if user_already_registered:
-                messages.error(request, 'This email has already been registered to a user')
+                messages.error(request, 'This phone has already been registered to a user')
             elif parish_member_not_detected:
-                messages.error(request, 'This email is not detected as an email of a parish member. If you are a parish member, please contact support to register your email as a parish member')
+                messages.error(request, 'This phone is not detected as an phone of a parish member. If you are a parish member, please contact support to register your email as a parish member')
             else:
                 # Create and save the user if all conditions are satisfied
-                user = form.save(commit=False)
-                user.email = email
-                profile_picture = form.cleaned_data['avatar']
-                if profile_picture:
-                    user.avatar = profile_picture
-                inactive_user = send_verification_email(request, form)
-                return render(request,'base/verificationemailsent.html')
+                phone_number = form.cleaned_data['phone']
+                otp=send_otp_via_sms(phone_number)
+                request.session['generatedotp'] = otp
+                request.session['username'] = form.cleaned_data['username']
+                request.session['password1'] = form.cleaned_data['password1']
+                request.session['phone'] = form.cleaned_data['phone']
+                if form.cleaned_data['avatar']:
+                    request.session['avatar'] = form.cleaned_data['avatar']
+                else:
+                    request.session['avatar'] = 'avatar.png'
+                return render(request, 'base/enterotp.html',{otp:'otp'})
+            
+
 
     else:
         form = SignUpForm()
@@ -58,18 +106,18 @@ def loginPage(request):
         return redirect('home')
 
     if request.method == 'POST':
-        email = request.POST.get('email').lower()
+        phone = request.POST.get('phone')
         password = request.POST.get('password')
 
         try:
-            user = CustomUser.objects.get(email=email)
+            user = CustomUser.objects.get(phone=phone)
             user = authenticate(request, username=user.username, password=password)
 
             if user is not None:
                 login(request, user)
                 return redirect('home')
             else:
-                messages.error(request, 'Email OR password is incorrect')
+                messages.error(request, 'Phone OR password is incorrect')
         except CustomUser.DoesNotExist:
             messages.error(request, "User does not exist")
 
@@ -294,3 +342,13 @@ class CustomPasswordResetView(PasswordResetView):
 def custom_password_reset_view(request, *args, **kwargs):
     return CustomPasswordResetView.as_view()(request, *args, **kwargs)
 
+def editnotice(request):
+    enternotice = 'ok'
+    return render(request,'base/form.html',{'enternotice':enternotice})
+
+def editnoticechange(request):
+    line=request.POST.get('matter')
+    with open('static\\text\\notices\\latest', 'a') as file:
+        file.write('\n')
+        file.write(line) 
+    return render(request,'base/home.html')

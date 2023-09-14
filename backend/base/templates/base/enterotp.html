@@ -1,0 +1,22 @@
+{% extends 'main.html' %}
+{% block content %}
+
+    <h1>Enter OTP</h1>
+    {% with generatedotp=otp %}
+    {% endwith %}
+    <form action="verify_otp" method="POST">
+        {% csrf_token %}
+        <label for="otp">OTP:</label>
+        <input type="text" id="enteredotp" name="enteredotp" required>
+        <button type="submit">Verify OTP</button>
+    </form>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+{% endblock content %}
+

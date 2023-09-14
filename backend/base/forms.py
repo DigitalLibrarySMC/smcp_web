@@ -21,7 +21,7 @@ class bcc_unitform(ModelForm):
       fields = '__all__'
 
 class SignUpForm(UserCreationForm):
-    email = forms.CharField(required=True,help_text='Required. Enter a valid email.')
+    phone = forms.CharField(required=True,help_text='Required. Enter a valid phone.')
     avatar = forms.ImageField(required=False)
     class Meta:
         model = CustomUser

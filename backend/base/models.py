@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):
     avatar = models.ImageField(null=True,default="avatar.png")
+    phone = models.CharField(max_length=10,null=True,default=100)
     #USERNAME_FIELD = 'email'
 
     # Add any additional fields or methods as needed
@@ -46,7 +47,8 @@ class person(models.Model):
     relation = models.CharField(max_length=100)
     occupation = models.CharField(max_length=100)
     email  = models.CharField(max_length=100, blank=True ,null=True)
-    age = models.IntegerField()
+    phone = models.CharField(max_length=13,null=True,default=100)
+    age = models.IntegerField(default=50)
     
     def __str__(self):
         return self.name
