@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-*y)n*!j)uohdz(k3#9=cjr#td+)!6tx&en2$i9lk)=wka3gy5b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','hardcore-wave-57475.pktriot.net']
+ALLOWED_HOSTS = ['localhost','morning-resonance-48892.pktriot.net']
 
 
 # Application definition
@@ -145,7 +145,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # settings.py
 
-CSRF_TRUSTED_ORIGINS=["https://hardcore-wave-57475.pktriot.net"]
+CSRF_TRUSTED_ORIGINS=["http://morning-resonance-48892.pktriot.net/"]
 
 
 #SMTP Configuration

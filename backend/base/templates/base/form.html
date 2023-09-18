@@ -9,6 +9,17 @@
      <input type="submit" value="Submit" />
 
 </form>
+{% if enternotice %}
+<button class="crud-button" id="append">Append</button>
+<button class="crud-button" id="write">Write</button>
+<form method="POST" action="{% url 'editnoticechange' %}">
+    {% csrf_token %}  
+    <input type="hidden" name="crud-function" value="" id="crud-function">  
+    <input type="text" name="date" placeholder="Enter the date DD-MM-YYYY" />
+    <input type="text" name="matter" placeholder="Enter the Matter" />
+    <button type="submit">Submit</button>
+</form>
+{% endif %}
 {% if messages %}
 <ul class="messages">
     {% for message in messages %}
@@ -16,15 +27,20 @@
     {% endfor %}
 </ul>
 {% endif %}
-{% if enternotice %}
-<form method="POST" action="{% url 'editnoticechange' %}">
-    {% csrf_token %}  
-    <input type="text" name="matter" placeholder="Enter the Matter" />
-    <button type="submit">Submit</button>
-</form>
-{% endif %}
 
 
 </div>
-
+<script>
+var crud
+    document.getElementById("append").addEventListener("click", function() {
+    crud = "a";
+    document.getElementById("crud-function").value = crud;  // Assign the value to the hidden input field
+    console.log(crud);
+  });
+    document.getElementById("write").addEventListener("click", function() {
+    crud = "w";
+    document.getElementById("crud-function").value = crud;  // Assign the value to the hidden input field
+    console.log(crud);
+  });
+</script>
 {% endblock content %}

@@ -13,7 +13,7 @@ from django_ratelimit.decorators import ratelimit
 from django.core.mail import send_mail
 from verify_email.email_handler import send_verification_email
 import phonenumbers,vonage,string,random
-
+import os
 
 def generate_otp(length=6):
     characters = string.digits
@@ -314,12 +314,23 @@ def scoreboard(request):
     return render(request,'base/resultpage.html',context)
 
 def notices(request):
-        with open('static\\text\\notices\\latest', 'r') as file:
-            notices = file.readlines()
+        view='notices'
+        folder_path = 'static\\text\\notices\\'
+        file_names = [f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]   # Get a list of file names in the folder
+        file_names.reverse()
+        # Now, file_names contains a list of file names in the folder
+
         with open('static\\text\\notifications', 'r') as myfile:
             lines = myfile.readlines()
-        return render(request, 'base/notices.html',{'notices':notices,'lines':lines})
-
+        return render(request, 'base/notices.html',{'notices':file_names,'lines':lines,'view':view})
+def viewnotice(request,line):
+    view='viewnotice'
+    filename=line
+    with open('static\\text\\notices\\'+filename,'r') as noticefile:
+        notices = noticefile.readlines()
+    with open('static\\text\\notifications', 'r') as myfile:
+            lines = myfile.readlines()    
+    return render(request, 'base/notices.html',{'notices':notices,'lines':lines,'view':view})
 def history(request):
         with open('static\\text\\history', 'r') as file:
             notices = file.readlines()
@@ -347,8 +358,18 @@ def editnotice(request):
     return render(request,'base/form.html',{'enternotice':enternotice})
 
 def editnoticechange(request):
+    enternotice = 'ok'
     line=request.POST.get('matter')
-    with open('static\\text\\notices\\latest', 'a') as file:
-        file.write('\n')
-        file.write(line) 
-    return render(request,'base/home.html')
+    crud=request.POST.get('crud-function') if request.POST.get('crud-function') != '' else 'a'
+    date=request.POST.get('date')  if request.POST.get('date') != '' else 'latest'
+    print(date,crud,line)
+    if line != None:
+                with open('static\\text\\notices\\'+ date, crud ) as file:
+                   file.write('\n')
+                   file.write(line) 
+                   messages.success(request,'Notice changed succesfully')
+    else:
+        messages.error(request,'Matter not provided')
+
+    return render(request,'base/form.html')
+

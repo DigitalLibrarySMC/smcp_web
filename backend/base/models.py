@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):
+    email = models.CharField(max_length=100)
     avatar = models.ImageField(null=True,default="avatar.png")
     phone = models.CharField(max_length=10,null=True,default=100)
     #USERNAME_FIELD = 'email'

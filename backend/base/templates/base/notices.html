@@ -1,7 +1,12 @@
 {% extends 'main.html' %}
 {% block content %}
 {% for line in notices %}
+{% if view == 'notices' %}
+<a href="{% url 'viewnotice' line %}">{{line}}</a>
+<hr>
+{% else %}
 <p>{{line}}</p>
+{% endif %}
 {% endfor %}
 
 {% endblock content %}

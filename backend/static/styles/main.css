@@ -49,8 +49,28 @@ body{
 .username {
   font-size: 18px; /* Adjust the font size as needed */
 }
-
-
+.nav-button {
+  background-color: green;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 20px;
+  display: inline-block;
+}
+.nav-button:hover {
+  background-color: yellow;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 20px;
+}
+.nav-button a {
+  color:black; /* Change to your desired color */
+  text-decoration: none; /* Remove the default underline */
+}
+.gap{
+  margin: 20px;
+}
 
 
 

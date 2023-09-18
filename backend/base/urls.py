@@ -26,6 +26,7 @@ urlpatterns = [
     path('results/',views.resultpage, name="resultpage"),
     path('scoreboard/',views.scoreboard, name="scoreboard"),
     path('notices/',views.notices, name="notices"),
+    path('viewnotice/<str:line>',views.viewnotice, name="viewnotice"),
     path('signup/',views.signup, name='signup'),
     path('quizes/',include('quizes.urls')),
     path('reset_password/',views.custom_password_reset_view,name='password_reset'),

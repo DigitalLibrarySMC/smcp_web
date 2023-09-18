@@ -19,9 +19,10 @@
   </form>
 
   {% for unit in units %}
-  <div>
+  <div class="unitbutton">
     <a href="{% url 'unitpage' unit.unitnumber %}">UNIT {{unit.unitnumber}} : {{unit.unitname}}</a>
   </div>
+  <div class="gap"></div>
   {% endfor %}
   <script src="/static/js/searchperson.js" >  </script>
   </body>
