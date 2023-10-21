@@ -5,10 +5,10 @@
     <span class="username">{{request.user}}</span>
   </div>
   
-  <a href="{% url 'logout' %}">Logout</a>
+  <button class='log-button' data-href="{% url 'logout' %}">Logout</button>
   <hr>
   {% else %}
-  <a href="{% url 'login' %}">Please Login for Full functionality of website</a>
+  <button class='log-button' data-href="{% url 'login' %}">Please Login for Full functionality of website</button>
   <hr>
   {% endif %}
 </div>
