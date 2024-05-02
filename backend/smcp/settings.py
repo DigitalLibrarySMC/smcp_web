@@ -143,6 +143,7 @@ MEDIA_ROOT = BASE_DIR / 'static/images'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+<<<<<<< Updated upstream
 # settings.py
 
 CSRF_TRUSTED_ORIGINS=["http://morning-resonance-48892.pktriot.net/"]
@@ -165,3 +166,31 @@ VONAGE_API_SECRET = 'vvTfDrWlqla8ZNFy'
 VONAGE_PHONE_NUMBER = '919633089555'
 
 
+=======
+import logging
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'INFO',  # Adjust the level as needed
+            'class': 'logging.FileHandler',
+            'filename': '/Users/abel0/OneDrive/Desktop/Git/dropbox-ai-chat/dropboxfolder/logs.txt',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+    },
+}
+>>>>>>> Stashed changes
